@@ -1,5 +1,12 @@
 package enums
 
+type ActiveScreen int
+
+const (
+	ScreenOnBoard  ActiveScreen = iota + 1 // 初始界面
+	ScreenGameMode                         // 游戏场景
+)
+
 type AttributeInt int
 
 // 万能 物理 火 风 冰 雷 虚数 量子
