@@ -18,9 +18,22 @@ import (
 	"golang.org/x/image/font/gofont/goregular"
 )
 
+type activeScreen int
+
+const (
+	ScreenOnBoard  activeScreen = iota + 1 // 初始界面
+	ScreenGameMode                         // 游戏场景
+)
+
+func ChangeScreen(newScreen activeScreen) activeScreen {
+	screenChan <- newScreen
+	return newScreen
+}
+
 type Game struct {
 	i             uint8
 	cfg           *config.Config
+	activeScreen  activeScreen
 	OnboardScreen *ebitenui.UI
 }
 
@@ -33,11 +46,22 @@ func NewGame(cfg *config.Config) *Game {
 	return &Game{
 		cfg:           cfg,
 		OnboardScreen: onboard,
+		activeScreen:  ChangeScreen(ScreenOnBoard),
 	}
 }
 
 func (g *Game) Update() error {
-	g.OnboardScreen.Update()
+	select {
+	case s := <-screenChan:
+		g.activeScreen = s
+	default:
+
+	}
+
+	switch g.activeScreen {
+	case ScreenOnBoard:
+		g.OnboardScreen.Update()
+	}
 	return nil
 }
 
@@ -58,7 +82,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	opt := &ebiten.DrawImageOptions{}
 	opt.GeoM.Scale(0.6, 0.6)
-	// opt.GeoM.Translate(float64(g.cfg.ScreenWidth-bgGIFFile.Bounds().Dx())/2, float64(g.cfg.ScreenHeight-bgGIFFile.Bounds().Dy())/2)
 	scale := ebiten.DeviceScaleFactor()
 	// log.Printf("scale :%+v", scale)
 	opt.GeoM.Scale(scale, scale)
@@ -66,7 +89,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	opt.Filter = ebiten.FilterLinear
 
 	screen.DrawImage(bgGIF, opt)
-	g.OnboardScreen.Draw(screen)
+	switch g.activeScreen {
+	case ScreenOnBoard:
+		g.OnboardScreen.Draw(screen)
+	case ScreenGameMode:
+		// println("switch game mode screen")
+	}
 
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\nFPS: %0.2f", ebiten.ActualTPS(), ebiten.ActualFPS()))
 }
@@ -95,7 +123,9 @@ func NewOnBoardScreen() *ebitenui.UI {
 		// widget.ContainerOpts.BackgroundImage(image.NewNineSliceColor(color.NRGBA{0x13, 0x1a, 0x22, 0xff})),
 
 		// the container will use an anchor layout to layout its single child widget
-		widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
+		widget.ContainerOpts.Layout(widget.NewAnchorLayout(
+			widget.AnchorLayoutOpts.Padding(widget.NewInsetsSimple(20)),
+		)),
 	)
 
 	// 开始游戏按钮 start game button
@@ -122,6 +152,7 @@ func NewOnBoardScreen() *ebitenui.UI {
 		// add a handler that reacts to clicking the button
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			println("button clicked")
+			ChangeScreen(ScreenGameMode)
 		}),
 	)
 	// add the button as a child of the container

@@ -10,6 +10,8 @@ import (
 
 var globalConfig *config.Config
 
+var screenChan = make(chan activeScreen, 1)
+
 func main() {
 	var mode string
 	flag.StringVar(&mode, "mode", "", "启动模式配置文件")
