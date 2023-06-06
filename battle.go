@@ -16,7 +16,7 @@ func (u Units) Len() int {
 
 func (u Units) Less(i, j int) bool {
 	f, s := u[i].Type, u[j].Type
-	return enums.GetAttributeInt(f) < enums.GetAttributeInt(s)
+	return f < s
 }
 
 func (u Units) Swap(i, j int) {

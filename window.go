@@ -37,6 +37,7 @@ func NewGame(cfg *config.Config) *Game {
 }
 
 func (g *Game) Update() error {
+	g.OnboardScreen.Update()
 	return nil
 }
 
