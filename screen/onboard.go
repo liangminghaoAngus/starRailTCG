@@ -1,24 +1,28 @@
 package screen
 
 import (
+	"fmt"
+	"image"
 	"image/color"
+	"math"
 	"starRailTCG/common"
 	"starRailTCG/enums"
 
 	"github.com/ebitenui/ebitenui"
-	"github.com/ebitenui/ebitenui/image"
+	e_image "github.com/ebitenui/ebitenui/image"
 	"github.com/ebitenui/ebitenui/widget"
 	"github.com/golang/freetype/truetype"
+	"github.com/hajimehoshi/ebiten/v2"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/gofont/goregular"
 )
 
 func loadButtonImage() (*widget.ButtonImage, error) {
-	idle := image.NewNineSliceColor(color.NRGBA{R: 170, G: 170, B: 180, A: 255})
+	idle := e_image.NewNineSliceColor(color.NRGBA{R: 170, G: 170, B: 180, A: 255})
 
-	hover := image.NewNineSliceColor(color.NRGBA{R: 130, G: 130, B: 150, A: 255})
+	hover := e_image.NewNineSliceColor(color.NRGBA{R: 130, G: 130, B: 150, A: 255})
 
-	pressed := image.NewNineSliceColor(color.NRGBA{R: 100, G: 100, B: 120, A: 255})
+	pressed := e_image.NewNineSliceColor(color.NRGBA{R: 100, G: 100, B: 120, A: 255})
 
 	return &widget.ButtonImage{
 		Idle:    idle,
@@ -41,6 +45,8 @@ func loadFont(size float64) (font.Face, error) {
 }
 
 func NewOnBoardScreen() *ebitenui.UI {
+
+	ui := &ebitenui.UI{}
 
 	buttonImage, _ := loadButtonImage()
 
@@ -94,10 +100,61 @@ func NewOnBoardScreen() *ebitenui.UI {
 			common.ChangeScreen(enums.ScreenGameMode)
 		}),
 	)
-	// fmt.Println(startGameBtn)
 	// add the button as a child of the container
 	buttonContainer.AddChild(startGameBtn)
-	// rootContainer.AddChild(startGameBtn)
+
+	// 设置菜单弹窗
+	// Create the titlebar for the window
+	titleContainer := widget.NewContainer(
+		widget.ContainerOpts.BackgroundImage(e_image.NewNineSliceColor(color.NRGBA{150, 150, 150, 255})),
+		widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
+	)
+	titleContainer.AddChild(widget.NewText(
+		widget.TextOpts.Text("Window Title", face, color.NRGBA{254, 255, 255, 255}),
+		widget.TextOpts.WidgetOpts(widget.WidgetOpts.LayoutData(widget.AnchorLayoutData{
+			HorizontalPosition: widget.AnchorLayoutPositionCenter,
+			VerticalPosition:   widget.AnchorLayoutPositionCenter,
+		})),
+	))
+
+	windowContainer := widget.NewContainer(
+		widget.ContainerOpts.BackgroundImage(e_image.NewNineSliceColor(color.NRGBA{100, 100, 100, 255})),
+		widget.ContainerOpts.Layout(widget.NewAnchorLayout()),
+	)
+	windowContainer.AddChild(widget.NewText(
+		widget.TextOpts.Text("Hello from window", face, color.NRGBA{254, 255, 255, 255}),
+		widget.TextOpts.WidgetOpts(widget.WidgetOpts.LayoutData(widget.AnchorLayoutData{
+			HorizontalPosition: widget.AnchorLayoutPositionCenter,
+			VerticalPosition:   widget.AnchorLayoutPositionCenter,
+		})),
+	))
+	window := widget.NewWindow(
+		//Set the main contents of the window
+		widget.WindowOpts.Contents(windowContainer),
+		//Set the titlebar for the window (Optional)
+		widget.WindowOpts.TitleBar(titleContainer, 25),
+		//Set the window above everything else and block input elsewhere
+		widget.WindowOpts.Modal(),
+		//Set how to close the window. CLICK_OUT will close the window when clicking anywhere
+		//that is not a part of the window object
+		widget.WindowOpts.CloseMode(widget.CLICK_OUT),
+		//Indicates that the window is draggable. It must have a TitleBar for this to work
+		widget.WindowOpts.Draggable(),
+		//Set the window resizeable
+		widget.WindowOpts.Resizeable(),
+		//Set the minimum size the window can be
+		widget.WindowOpts.MinSize(200, 200),
+		//Set the maximum size a window can be
+		// widget.WindowOpts.MaxSize(300, 300),
+		//Set the callback that triggers when a move is complete
+		widget.WindowOpts.MoveHandler(func(args *widget.WindowChangedEventArgs) {
+			fmt.Println("Window Moved")
+		}),
+		//Set the callback that triggers when a resize is complete
+		widget.WindowOpts.ResizeHandler(func(args *widget.WindowChangedEventArgs) {
+			fmt.Println("Window Resized")
+		}),
+	)
 
 	// 设置按钮
 	settingBtn := widget.NewButton(
@@ -120,14 +177,26 @@ func NewOnBoardScreen() *ebitenui.UI {
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
 			// TODO
 			println("setting btn clicked")
-			// ChangeScreen(ScreenGameMode)
+			// x, y := window.Contents.PreferredSize()
+			s := ebiten.DeviceScaleFactor()
+			sInt := int(math.Ceil(s - 0.5))
+			// println(x, y)
+			x := ((1280 * sInt) - 800) / 2
+			y := ((720 * sInt) - 800) / 2
+			r := image.Rect(0, 0, 800, 800)
+			r = r.Add(image.Point{x, y})
+			//Set the windows location to the rect.
+			window.SetLocation(r)
+			//Add the window to the UI.
+			//Note: If the window is already added, this will just move the window and not add a duplicate.
+			ui.AddWindow(window)
 		}),
 	)
 	buttonContainer.AddChild(settingBtn)
 	rootContainer.AddChild(buttonContainer)
 
 	// construct the UI
-	ui := &ebitenui.UI{
+	ui = &ebitenui.UI{
 		Container: rootContainer,
 	}
 
