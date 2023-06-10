@@ -175,7 +175,6 @@ func NewOnBoardScreen() *ebitenui.UI {
 		}),
 		// add a handler that reacts to clicking the button
 		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
-			// TODO
 			println("setting btn clicked")
 			// x, y := window.Contents.PreferredSize()
 			s := ebiten.DeviceScaleFactor()

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .game-ui {
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            height: 100%;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+            width: 90%;
+            background-color: #000;
+            justify-content: center;
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .player-board {
+            background-color: #fff;
+            display: flex;
+            height: 50%;
+            border: 1px solid #987;
+        }
+
+        .card-screen-container {
+            flex-grow: 0.25;
+            background-color: #000;
+            display: flex;
+            /* width: 400px;
+            height: 400px; */
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: stretch;
+            align-items: stretch;
+            padding-top: 8px
+        }
+
+
+
+        .card-screen-container .card-screen-item {
+            flex-grow: 0.5;
+            background-color: royalblue;
+            width: 40%;
+            height: 45%;
+            align-self: auto;
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 4;
+        }
+
+        .card-charater-container {
+            flex-grow: 0.5;
+            background-color: #234752;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: stretch;
+            align-items: stretch;
+            padding-top:8px;
+            /* padding:12px 16px; */
+        }
+
+        .card-charater-container .card-charater-item {
+            width: 30%;
+            height: 80%;
+            order: 1;
+            align-self: auto;
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 1;
+            background-color:royalblue;
+        }
+
+        .player-one-board .card-charater-container .card-charater-item{}
+        .player-one-board .card-charater-container .card-charater-item.card-charater-active{
+            margin-top:4%
+}
+
+        .player-two-board .card-charater-container .card-charater-item{
+            margin-top:10%
+        }
+        .player-two-board .card-charater-container .card-charater-item.card-charater-active{
+            margin-top:4%
+        }
+
+        .card-summon-container {
+            display: flex;
+            flex-grow: 0.25;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: stretch;
+            align-items: stretch;
+            padding-top: 8px;
+            background-color: #999;
+        }
+
+        .card-summon-container .card-summon-item {
+            flex-grow: 0.5;
+            background-color: royalblue;
+            width: 40%;
+            height: 45%;
+            align-self: auto;
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 4;
+        }
+
+        .round-switch {
+            position: absolute;
+        }
+
+        .player-up {
+            position: absolute;
+        }
+
+        .player-down {
+            position: absolute;
+        }
+
+        .three-buttons {
+            position: absolute;
+        }
+
+        .right-units-line {
+            position: absolute;
+        }
+
+        .right-units-drawer {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-ui">
+        <div class="container">
+            <div class="player-board player-one-board">
+                <div class="card-screen-container">
+                    <div class="card-screen-item"></div>
+                    <div class="card-screen-item"></div>
+                    <div class="card-screen-item"></div>
+                    <div class="card-screen-item"></div>
+                </div>
+                <div class="card-charater-container">
+                    <div class="card-charater-item"></div>
+                    <div class="card-charater-item card-charater-active"></div>
+                    <div class="card-charater-item"></div>
+                </div>
+                <div class="card-summon-container">
+                    <div class="card-summon-item"></div>
+                    <div class="card-summon-item"></div>
+                    <div class="card-summon-item"></div>
+                    <div class="card-summon-item"></div>
+                </div>
+            </div>
+            <div class="player-board player-two-board">
+                <div class="card-screen-container">
+                    <div class="card-screen-item"></div>
+                    <div class="card-screen-item"></div>
+                    <div class="card-screen-item"></div>
+                    <div class="card-screen-item"></div>
+                </div>
+                <div class="card-charater-container">
+                    <div class="card-charater-item card-charater-active"></div>
+                    <div class="card-charater-item"></div>
+                    <div class="card-charater-item"></div>
+                </div>
+                <div class="card-summon-container">
+                    <div class="card-summon-item"></div>
+                    <div class="card-summon-item"></div>
+                    <div class="card-summon-item"></div>
+                    <div class="card-summon-item"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="round-switch">
+            <!-- card-player-one -->
+            <!-- mid switch -->
+            <!-- card-player-two -->
+        </div>
+        <div class="player-up"></div>
+        <div class="player-down"></div>
+        <div class="three-buttons"></div>
+        <div class="right-units-line"></div>
+        <div class="right-units-drawer"></div>
+
+
+    </div>
+
+</body>
+
+</html>
