@@ -83,8 +83,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	s := ebiten.DeviceScaleFactor()
-	return int(float64(outsideWidth) * s), int(float64(outsideHeight) * s)
+	// s := ebiten.DeviceScaleFactor()
+	// return int(float64(outsideWidth) * s), int(float64(outsideHeight) * s)
+	return outsideWidth, outsideHeight
 }
 
 func Hex2RGB(color16 string, alpha uint8) color.RGBA {

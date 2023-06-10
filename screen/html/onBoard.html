@@ -14,14 +14,17 @@
     /* align-items: center; */
     justify-content: center;
     flex-wrap: wrap;
+    flex-direction: column;
 }
 .title-panel-container{
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* height: 400px; */
 }
 .button-group{
+    flex-direction: column;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -39,8 +42,8 @@ width: 100%;
     <div class="game-ui">
         <div class="container">
             <div class="title-panel-container">
-                <div class="title-panel-img" sprite=""></div>
-                <div class="title-panel-name">七圣召唤</div>
+                <!-- <div class="title-panel-img" sprite=""></div> -->
+                <onboard-title class="title-panel-name">七圣召唤</onboard-title>
             </div>
             <div class="button-group">
                 <button class="button-group-button" sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">
@@ -54,7 +57,6 @@ width: 100%;
                 </button>
             </div>
         </div>
-
     </div>
 
 </body>

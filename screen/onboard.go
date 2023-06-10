@@ -1,7 +1,9 @@
 package screen
 
 import (
+	"fmt"
 	"image/color"
+	"io/ioutil"
 	"starRailTCG/widgets"
 
 	e_image "github.com/ebitenui/ebitenui/image"
@@ -9,7 +11,6 @@ import (
 	"github.com/golang/freetype/truetype"
 	"github.com/yohamta/furex/v2"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/gofont/goregular"
 
 	_ "embed"
 )
@@ -33,7 +34,11 @@ func loadButtonImage() (*widget.ButtonImage, error) {
 }
 
 func loadFont(size float64) (font.Face, error) {
-	ttfFont, err := truetype.Parse(goregular.TTF)
+	fontFile, err := ioutil.ReadFile("static/AlibabaPuHuiTi-3-75-SemiBold.ttf")
+	if err != nil {
+		panic("font file err")
+	}
+	ttfFont, err := truetype.Parse(fontFile)
 	if err != nil {
 		return nil, err
 	}
@@ -51,15 +56,33 @@ func NewOnBoardScreen() *furex.View {
 
 	// buttonImage, _ := loadButtonImage()
 
-	// face, _ := loadFont(24)
+	face, _ := loadFont(24)
+	titleFace, _ := loadFont(50)
 	view := furex.Parse(onBoardHtml, &furex.ParseOptions{
 		Width:  1280,
 		Height: 720,
 		Components: map[string]furex.Component{
-			"button": &widgets.Button{
-				OnClick: func() {
-					println("button click")
-				},
+			"button": func() *furex.View {
+				return &furex.View{
+					Height: 50,
+					Width:  500,
+					Handler: &widgets.Button{
+						FontFace: face,
+						OnClick: func(attrs map[string]string) {
+							fmt.Printf("%+v", attrs)
+							println("button click")
+						},
+					},
+				}
+			},
+			"onboard-title": func() *furex.View {
+				return &furex.View{
+					Height:     50,
+					Direction:  furex.Row,
+					AlignItems: furex.AlignItemCenter,
+					Justify:    furex.JustifyStart,
+					Handler:    &widgets.Text{FontFace: titleFace},
+				}
 			},
 		},
 	})
