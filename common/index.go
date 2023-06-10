@@ -1,6 +1,8 @@
 package common
 
-import "starRailTCG/enums"
+import (
+	"starRailTCG/enums"
+)
 
 var ScreenChan = make(chan enums.ActiveScreen, 1)
 

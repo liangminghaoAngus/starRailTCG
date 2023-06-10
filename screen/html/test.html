@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<head>
+    <style>
+        .game-ui {
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: stretch;
+            align-content: stretch;
+        }
+
+        .container {
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            flex-grow: 1;
+        }
+
+        .panel-outer {
+            width: 300px;
+            height: 300px;
+            margin-top: 120px;
+            margin-left: 130px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .panel-inner {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            width: 245px;
+            height: 200px;
+        }
+
+        .gauge-container {
+            width: 180px;
+            height: 38px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+        }
+
+        .gauge-container2 {
+            width: 180px;
+            height: 38px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+            margin-top: 30px;
+        }
+
+        .gauge {
+            width: 180px;
+            height: 18px;
+        }
+
+        .buttons {
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .button-inventory {
+            width: 190px;
+            height: 49px;
+        }
+
+        .button-ok {
+            width: 45px;
+            height: 49px;
+            margin-left: 10;
+        }
+
+        .bottom-buttons {
+            height: 140px;
+            width: 480px;
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .gauge-text {
+            margin-bottom: 2px;
+        }
+
+        .bottom-button {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .close-button {
+            position: absolute;
+            left: 283px;
+            top: -15;
+            width: 35px;
+            height: 38px
+        }
+
+        .close-button-sprite {
+            position: absolute;
+            left: 18;
+            top: 17
+        }
+
+        .play-game-container {
+            position: absolute;
+            left: 20;
+            top: 52;
+        }
+
+        .play-game-panel {
+            width: 260px;
+            height: 140px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-game-buttons {
+            width: 100;
+            height: 50;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="game-ui">
+        <div class="container">
+            <panel class="panel-outer" sprite="panel_brown.png">
+                <panel class="panel-inner" sprite="panelInset_beige.png">
+                    <div class="gauge-container">
+                        <gauge-text class="gauge-text">Health</gauge-text>
+                        <gauge class="gauge" color="Green"></gauge>
+                    </div>
+                    <div class="gauge-container2">
+                        <gauge-text class="gauge-text">Mana</gauge-text>
+                        <gauge class="gauge" color="Blue"></gauge>
+                    </div>
+                </panel>
+                <div class="buttons">
+                    <button sprite="buttonLong_blue.png" sprite_pressed="buttonLong_blue_pressed.png" class="button-inventory">Inventory</button>
+                    <button sprite="buttonSquare_blue.png" sprite_pressed="buttonSquare_blue_pressed.png" class="button-ok">OK</button>
+                </div>
+                <button class="close-button" sprite="buttonRound_blue.png">
+                    <sprite sprite="iconCross_beige.png" class="close-button-sprite"></sprite>
+                </button>
+            </panel>
+        </div>
+
+        <div class="bottom-buttons">
+            <bottom-button class="bottom-button" sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">A</bottom-button>
+            <bottom-button class="bottom-button" sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">B</bottom-button>
+            <bottom-button class="bottom-button" sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">C</bottom-button>
+            <bottom-button class="bottom-button" sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">D</bottom-button>
+        </div>
+
+        <div class="play-game-container">
+            <panel class="play-game-panel" sprite="glassPanel_corners.png">
+                <play-game-text id="play-game-text" style="margin-bottom: 20px; width: 55%;"></play-game-text>
+                <div class="play-game-buttons">
+                    <panel-button sprite="glassPanel_projection.png">YES</panel-button>
+                    <panel-button sprite="glassPanel_projection.png" style="margin-left: 20px;">NO</panel-button>
+                </div>
+            </panel>
+        </div>
+    </div>
+</body>
+
+</html>

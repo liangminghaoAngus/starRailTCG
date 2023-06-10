@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+.game-ui{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+.container{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.title-panel-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button-group{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: 200px;
+
+}
+.button-group .button-group-button{
+display: flex;
+width: 100%;
+}
+</style>
+</head>
+<body>
+    <div class="game-ui">
+        <div class="container">
+            <div class="title-panel-container">
+                <div class="title-panel-img" sprite=""></div>
+                <div class="title-panel-name">七圣召唤</div>
+            </div>
+            <div class="button-group">
+                <button class="button-group-button" sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">
+                    开始游戏
+                </button>
+                <button class="button-group-button"  sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">
+                    游戏设置
+                </button>
+                <button class="button-group-button"  sprite="buttonSquare_brown.png" sprite_pressed="buttonSquare_brown_pressed.png">
+                    退出游戏
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -10,16 +10,16 @@ import (
 	"starRailTCG/screen"
 	"strconv"
 
-	"github.com/ebitenui/ebitenui"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/yohamta/furex/v2"
 )
 
 type Game struct {
 	i             uint8
 	cfg           *config.Config
 	activeScreen  enums.ActiveScreen
-	OnboardScreen *ebitenui.UI
+	OnboardScreen *furex.View
 }
 
 func NewGame(cfg *config.Config) *Game {
