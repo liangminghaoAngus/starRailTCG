@@ -60,7 +60,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// 	g.i = 0
 	// }
 
-	screen.Fill(Hex2RGB("#0dceda", g.i))
+	// screen.Fill(Hex2RGB("#0dceda", g.i))
 	// sw, sh := screen.Bounds().Dx(), screen.Bounds().Dy()
 	// // 加载背景图片
 	// bgGIF, bgGIFFile, err := ebitenutil.NewImageFromFile("./static/imgs/onboard.gif")

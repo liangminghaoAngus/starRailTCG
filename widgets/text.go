@@ -37,12 +37,12 @@ func (t *Text) Draw(screen *ebiten.Image, frame image.Rectangle, view *furex.Vie
 			screen, float32(frame.Min.X), float32(frame.Min.Y), float32(len(view.Text)*6+4), float32(frame.Dy()), color.RGBA{0, 0, 0, 50}, false)
 	}
 	x, y := frame.Min.X+frame.Dx()/2, frame.Min.Y+frame.Dy()/2
-	if t.HorzAlign == etxt.Left {
-		x = frame.Min.X
-	}
-	if t.VertAlign == etxt.Top {
-		y = frame.Min.Y
-	}
+	// if t.HorzAlign == etxt.Left {
+	// 	x = frame.Min.X
+	// }
+	// if t.VertAlign == etxt.Top {
+	// 	y = frame.Min.Y
+	// }
 	if t.Color != nil {
 		// text.R.SetColor(t.Color)
 	} else {

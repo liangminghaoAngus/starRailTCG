@@ -20,8 +20,19 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 24%;
     /* height: 400px; */
+}
+.title-panel-img{
+    /* flex-grow: 1; */
+    height: 20%;
+    width: 100%;
+}
+.title-panel-name{
+/* width: 100%; */
 }
 .button-group{
     flex-direction: column;
@@ -42,7 +53,7 @@ width: 100%;
     <div class="game-ui">
         <div class="container">
             <div class="title-panel-container">
-                <!-- <div class="title-panel-img" sprite=""></div> -->
+                <title-panel-img class="title-panel-img" sprite=""></title-panel-img>
                 <onboard-title class="title-panel-name">七圣召唤</onboard-title>
             </div>
             <div class="button-group">

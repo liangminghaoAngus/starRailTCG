@@ -2,11 +2,15 @@ package screen
 
 import (
 	"fmt"
-	"io/ioutil"
+	"image"
+	"image/color"
+	"os"
 	"starRailTCG/widgets"
+	"strconv"
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/yohamta/furex/v2"
 	"golang.org/x/image/font"
 
@@ -32,7 +36,7 @@ var onBoardHtml string
 // }
 
 func loadFont(size float64) (font.Face, error) {
-	fontFile, err := ioutil.ReadFile("static/AlibabaPuHuiTi-3-75-SemiBold.ttf")
+	fontFile, err := os.ReadFile("static/AlibabaPuHuiTi-3-75-SemiBold.ttf")
 	if err != nil {
 		panic("font file err")
 	}
@@ -57,6 +61,26 @@ func NewOnBoardScreen() *furex.View {
 	scale := ebiten.DeviceScaleFactor()
 	face, _ := loadFont(24 * scale)
 	titleFace, _ := loadFont(50 * scale)
+	logo, logoFile, _ := ebitenutil.NewImageFromFile("./static/imgs/logo.png")
+	bgImg, bgImgFile, _ := ebitenutil.NewImageFromFile("./static/imgs/bgImg.jpeg")
+	rootView := furex.NewHandler(furex.HandlerOpts{
+		HandleRelease: func(x, y int, isCancel bool) {},
+		HandlePress:   func(x, y int, t ebiten.TouchID) {},
+		Update:        func(v *furex.View) {},
+		Draw: func(screen *ebiten.Image, frame image.Rectangle, v *furex.View) {
+			// screen.Fill(Hex2RGB("#0dceda", 0))
+			sw, sh := frame.Min.X+frame.Dx()/2, frame.Min.Y+frame.Dy()/2
+			opt := &ebiten.DrawImageOptions{}
+			opt.GeoM.Scale(0.6, 0.6)
+			scale := ebiten.DeviceScaleFactor()
+			opt.GeoM.Scale(scale, scale)
+			opt.GeoM.Translate(float64(sw-(bgImgFile.Bounds().Dx()/2)), float64(sh-(bgImgFile.Bounds().Dy()/2)-10))
+			opt.Filter = ebiten.FilterLinear
+
+			screen.DrawImage(bgImg, opt)
+		},
+	})
+
 	view := furex.Parse(onBoardHtml, &furex.ParseOptions{
 		Width:  1280 * int(scale),
 		Height: 720 * int(scale),
@@ -76,15 +100,34 @@ func NewOnBoardScreen() *furex.View {
 			},
 			"onboard-title": func() *furex.View {
 				return &furex.View{
-					Height:     50 * int(scale),
+					Height:     65 * int(scale),
+					Width:      400 * int(scale),
 					Direction:  furex.Row,
 					AlignItems: furex.AlignItemCenter,
 					Justify:    furex.JustifyStart,
 					Handler:    &widgets.Text{FontFace: titleFace},
 				}
 			},
+			"title-panel-img": func() *furex.View {
+				return &furex.View{
+					Height:     100 * int(scale),
+					Width:      400 * int(scale),
+					Direction:  furex.Row,
+					AlignItems: furex.AlignItemCenter,
+					Justify:    furex.JustifyStart,
+					Handler:    &widgets.Image{Img: logo, Item: logoFile.Bounds()},
+				}
+			},
 		},
+		Handler: rootView,
 	})
 
 	return view
+}
+
+func Hex2RGB(color16 string, alpha uint8) color.RGBA {
+	r, _ := strconv.ParseInt(color16[:2], 16, 10)
+	g, _ := strconv.ParseInt(color16[2:4], 16, 18)
+	b, _ := strconv.ParseInt(color16[4:], 16, 10)
+	return color.RGBA{R: uint8(r), G: uint8(g), B: uint8(b), A: alpha}
 }
