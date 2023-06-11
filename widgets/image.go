@@ -8,13 +8,33 @@ import (
 )
 
 type Image struct {
-	Img  *ebiten.Image
-	Item image.Rectangle
+	Img     *ebiten.Image
+	Item    image.Rectangle
+	OnClick func(attr map[string]string)
 
+	Attrs   map[string]string
+	pressed bool
 	// attrs map[string]string
 }
 
+func (i *Image) HandlePress(x, y int, t ebiten.TouchID) {
+	i.pressed = true
+}
+
+func (i *Image) HandleRelease(x, y int, isCancel bool) {
+	i.pressed = false
+	if !isCancel {
+		if i.OnClick != nil {
+			i.OnClick(i.Attrs)
+		}
+	}
+}
+
 func (i *Image) Draw(screen *ebiten.Image, frame image.Rectangle, view *furex.View) {
+	if i.Img == nil {
+		return
+	}
+
 	// sw, sh := frame.Bounds().Dx(), frame.Bounds().Dy()
 	sw, sh := frame.Min.X+frame.Dx()/2, frame.Min.Y+frame.Dy()/2
 	opt := &ebiten.DrawImageOptions{}

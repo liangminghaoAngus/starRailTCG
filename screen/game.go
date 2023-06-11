@@ -2,6 +2,7 @@ package screen
 
 import (
 	"image"
+	"starRailTCG/widgets"
 
 	_ "embed"
 
@@ -19,10 +20,19 @@ func NewGameScreen() *furex.View {
 	// face, _ := loadFont(24 * scale)
 
 	view := furex.Parse(GameHtml, &furex.ParseOptions{
-		Width:      1280 * int(scale),
-		Height:     720 * int(scale),
-		Components: map[string]furex.Component{},
+		Width:  1280 * int(scale),
+		Height: 720 * int(scale),
+		Components: map[string]furex.Component{
+			"card-screen-item": func() *furex.View {
+				return &furex.View{
+					Handler: &widgets.Image{},
+				}
+			},
+		},
 		Handler: furex.NewHandler(furex.HandlerOpts{
+			Update: func(v *furex.View) {
+
+			},
 			Draw: func(screen *ebiten.Image, frame image.Rectangle, v *furex.View) {
 				println("game screen")
 			},

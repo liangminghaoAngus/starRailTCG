@@ -52,7 +52,7 @@ func (g *Game) Update() error {
 		// scale := ebiten.DeviceScaleFactor()
 		// g.OnboardScreen.UpdateWithSize(g.cfg.ScreenWidth*int(scale), g.cfg.ScreenHeight*int(scale))
 	case enums.ScreenGameMode:
-		g.OnBoardScreen.Update()
+		g.OnGameScreen.Update()
 	}
 	return nil
 }
