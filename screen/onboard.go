@@ -2,13 +2,11 @@ package screen
 
 import (
 	"fmt"
-	"image/color"
 	"io/ioutil"
 	"starRailTCG/widgets"
 
-	e_image "github.com/ebitenui/ebitenui/image"
-	"github.com/ebitenui/ebitenui/widget"
 	"github.com/golang/freetype/truetype"
+	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/yohamta/furex/v2"
 	"golang.org/x/image/font"
 
@@ -18,20 +16,20 @@ import (
 //go:embed html/onBoard.html
 var onBoardHtml string
 
-func loadButtonImage() (*widget.ButtonImage, error) {
+// func loadButtonImage() (*widget.ButtonImage, error) {
 
-	idle := e_image.NewNineSliceColor(color.NRGBA{R: 170, G: 170, B: 180, A: 255})
+// 	idle := e_image.NewNineSliceColor(color.NRGBA{R: 170, G: 170, B: 180, A: 255})
 
-	hover := e_image.NewNineSliceColor(color.NRGBA{R: 130, G: 130, B: 150, A: 255})
+// 	hover := e_image.NewNineSliceColor(color.NRGBA{R: 130, G: 130, B: 150, A: 255})
 
-	pressed := e_image.NewNineSliceColor(color.NRGBA{R: 100, G: 100, B: 120, A: 255})
+// 	pressed := e_image.NewNineSliceColor(color.NRGBA{R: 100, G: 100, B: 120, A: 255})
 
-	return &widget.ButtonImage{
-		Idle:    idle,
-		Hover:   hover,
-		Pressed: pressed,
-	}, nil
-}
+// 	return &widget.ButtonImage{
+// 		Idle:    idle,
+// 		Hover:   hover,
+// 		Pressed: pressed,
+// 	}, nil
+// }
 
 func loadFont(size float64) (font.Face, error) {
 	fontFile, err := ioutil.ReadFile("static/AlibabaPuHuiTi-3-75-SemiBold.ttf")
@@ -56,16 +54,17 @@ func NewOnBoardScreen() *furex.View {
 
 	// buttonImage, _ := loadButtonImage()
 
-	face, _ := loadFont(24)
-	titleFace, _ := loadFont(50)
+	scale := ebiten.DeviceScaleFactor()
+	face, _ := loadFont(24 * scale)
+	titleFace, _ := loadFont(50 * scale)
 	view := furex.Parse(onBoardHtml, &furex.ParseOptions{
-		Width:  1280,
-		Height: 720,
+		Width:  1280 * int(scale),
+		Height: 720 * int(scale),
 		Components: map[string]furex.Component{
 			"button": func() *furex.View {
 				return &furex.View{
-					Height: 50,
-					Width:  500,
+					Height: 50 * int(scale),
+					Width:  400 * int(scale),
 					Handler: &widgets.Button{
 						FontFace: face,
 						OnClick: func(attrs map[string]string) {
@@ -77,7 +76,7 @@ func NewOnBoardScreen() *furex.View {
 			},
 			"onboard-title": func() *furex.View {
 				return &furex.View{
-					Height:     50,
+					Height:     50 * int(scale),
 					Direction:  furex.Row,
 					AlignItems: furex.AlignItemCenter,
 					Justify:    furex.JustifyStart,

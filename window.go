@@ -46,6 +46,8 @@ func (g *Game) Update() error {
 	switch g.activeScreen {
 	case enums.ScreenOnBoard:
 		g.OnboardScreen.Update()
+		// scale := ebiten.DeviceScaleFactor()
+		// g.OnboardScreen.UpdateWithSize(g.cfg.ScreenWidth*int(scale), g.cfg.ScreenHeight*int(scale))
 	}
 	return nil
 }
@@ -83,9 +85,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	// s := ebiten.DeviceScaleFactor()
-	// return int(float64(outsideWidth) * s), int(float64(outsideHeight) * s)
-	return outsideWidth, outsideHeight
+	s := ebiten.DeviceScaleFactor()
+	return int(float64(outsideWidth) * s), int(float64(outsideHeight) * s)
+	// return outsideWidth, outsideHeight
 }
 
 func Hex2RGB(color16 string, alpha uint8) color.RGBA {
