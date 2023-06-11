@@ -1,10 +1,11 @@
 package screen
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"os"
+	"starRailTCG/common"
+	"starRailTCG/enums"
 	"starRailTCG/widgets"
 	"strconv"
 
@@ -92,8 +93,12 @@ func NewOnBoardScreen() *furex.View {
 					Handler: &widgets.Button{
 						FontFace: face,
 						OnClick: func(attrs map[string]string) {
-							fmt.Printf("%+v", attrs)
-							println("button click")
+							if id, ok := attrs["id"]; ok {
+								ButtonClickCall(id)
+							}
+
+							// fmt.Printf("%+v", attrs)
+							// println("button click")
 						},
 					},
 				}
@@ -130,4 +135,20 @@ func Hex2RGB(color16 string, alpha uint8) color.RGBA {
 	g, _ := strconv.ParseInt(color16[2:4], 16, 18)
 	b, _ := strconv.ParseInt(color16[4:], 16, 10)
 	return color.RGBA{R: uint8(r), G: uint8(g), B: uint8(b), A: alpha}
+}
+
+func ButtonClickCall(id string) {
+	const (
+		startGame = "startGame"
+		settings  = "settings"
+		exitGame  = "exitGame"
+	)
+	switch id {
+	case startGame:
+		common.ChangeScreen(enums.ScreenGameMode)
+	case settings:
+
+	case exitGame:
+		os.Exit(1)
+	}
 }

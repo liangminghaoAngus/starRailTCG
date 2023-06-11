@@ -16,10 +16,11 @@ import (
 )
 
 type Game struct {
-	i             uint8
+	// i             uint8
 	cfg           *config.Config
 	activeScreen  enums.ActiveScreen
-	OnboardScreen *furex.View
+	OnBoardScreen *furex.View
+	OnGameScreen  *furex.View
 }
 
 func NewGame(cfg *config.Config) *Game {
@@ -28,9 +29,11 @@ func NewGame(cfg *config.Config) *Game {
 	ebiten.SetWindowTitle(cfg.Title)                        //窗口标题
 
 	onboard := screen.NewOnBoardScreen()
+	onGame := screen.NewGameScreen()
 	return &Game{
 		cfg:           cfg,
-		OnboardScreen: onboard,
+		OnBoardScreen: onboard,
+		OnGameScreen:  onGame,
 		activeScreen:  common.ChangeScreen(enums.ScreenOnBoard),
 	}
 }
@@ -45,9 +48,11 @@ func (g *Game) Update() error {
 
 	switch g.activeScreen {
 	case enums.ScreenOnBoard:
-		g.OnboardScreen.Update()
+		g.OnBoardScreen.Update()
 		// scale := ebiten.DeviceScaleFactor()
 		// g.OnboardScreen.UpdateWithSize(g.cfg.ScreenWidth*int(scale), g.cfg.ScreenHeight*int(scale))
+	case enums.ScreenGameMode:
+		g.OnBoardScreen.Update()
 	}
 	return nil
 }
@@ -76,12 +81,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// screen.DrawImage(bgGIF, opt)
 	switch g.activeScreen {
 	case enums.ScreenOnBoard:
-		g.OnboardScreen.Draw(screen)
+		g.OnBoardScreen.Draw(screen)
 	case enums.ScreenGameMode:
+		g.OnGameScreen.Draw(screen)
 		// println("switch game mode screen")
 	}
 
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\nFPS: %0.2f", ebiten.ActualTPS(), ebiten.ActualFPS()))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("\n\nActive Screen: %v", g.activeScreen))
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
