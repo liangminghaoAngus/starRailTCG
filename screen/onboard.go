@@ -3,6 +3,7 @@ package screen
 import (
 	"image"
 	"image/color"
+	"image/jpeg"
 	"os"
 	"starRailTCG/common"
 	"starRailTCG/enums"
@@ -62,20 +63,21 @@ func NewOnBoardScreen() *furex.View {
 	scale := ebiten.DeviceScaleFactor()
 	face, _ := loadFont(24 * scale)
 	titleFace, _ := loadFont(50 * scale)
+	image.RegisterFormat("jpeg", "jpeg", jpeg.Decode, jpeg.DecodeConfig)
 	logo, logoFile, _ := ebitenutil.NewImageFromFile("./static/imgs/logo.png")
-	bgImg, bgImgFile, _ := ebitenutil.NewImageFromFile("./static/imgs/bgImg.jpeg")
+	bgImg, _, _ := ebitenutil.NewImageFromFile("./static/imgs/bgImg.jpeg")
 	rootView := furex.NewHandler(furex.HandlerOpts{
 		HandleRelease: func(x, y int, isCancel bool) {},
 		HandlePress:   func(x, y int, t ebiten.TouchID) {},
 		Update:        func(v *furex.View) {},
 		Draw: func(screen *ebiten.Image, frame image.Rectangle, v *furex.View) {
 			// screen.Fill(Hex2RGB("#0dceda", 0))
-			sw, sh := frame.Min.X+frame.Dx()/2, frame.Min.Y+frame.Dy()/2
+			// sw, sh := frame.Min.X+frame.Dx()/2, frame.Min.Y+frame.Dy()/2
 			opt := &ebiten.DrawImageOptions{}
-			opt.GeoM.Scale(0.6, 0.6)
+			opt.GeoM.Scale(0.75, 0.75)
 			scale := ebiten.DeviceScaleFactor()
 			opt.GeoM.Scale(scale, scale)
-			opt.GeoM.Translate(float64(sw-(bgImgFile.Bounds().Dx()/2)), float64(sh-(bgImgFile.Bounds().Dy()/2)-10))
+			// opt.GeoM.Translate(float64(sw-(bgImgFile.Bounds().Dx()/2)), float64(sh-(bgImgFile.Bounds().Dy()/2)-10))
 			opt.Filter = ebiten.FilterLinear
 
 			screen.DrawImage(bgImg, opt)
